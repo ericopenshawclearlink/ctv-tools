@@ -1,0 +1,254 @@
+<!-- STREAMING BUNDLE BUILDER — CableTV.com WP Bakery Safe Version -->
+<!-- Works in Text element OR Raw HTML element -->
+<div id="ctvsb">
+  <div class="sb-hero">
+    <span class="sb-hero-label">Free Tool · CableTV.com</span>
+    <h2>Find Your Perfect Streaming Bundle</h2>
+    <p>Select the channels and content you can't live without. We'll build you the exact bundle of streaming services that covers everything — nothing more, nothing less.</p>
+  </div>
+  <div class="sb-body">
+    <div class="sb-label">Step 1 — What Can't You Live Without?</div>
+    <div class="sb-cat-title">Sports</div>
+    <div class="sb-grid">
+      <div class="sb-chip" data-tags="sports,espn">ESPN</div>
+      <div class="sb-chip" data-tags="sports,nfl">NFL Network</div>
+      <div class="sb-chip" data-tags="sports,fs1">FS1</div>
+      <div class="sb-chip" data-tags="sports,nbcsports">NBC Sports</div>
+      <div class="sb-chip" data-tags="sports,nba">NBA TV</div>
+      <div class="sb-chip" data-tags="sports,mlb">MLB Network</div>
+    </div>
+    <div class="sb-cat-title">Local &amp; News</div>
+    <div class="sb-grid">
+      <div class="sb-chip" data-tags="locals,abc,cbs,nbc,fox">Local Channels (ABC, CBS, NBC, FOX)</div>
+      <div class="sb-chip" data-tags="news,cnn">CNN</div>
+      <div class="sb-chip" data-tags="news,foxnews">Fox News</div>
+      <div class="sb-chip" data-tags="news,msnbc">MSNBC</div>
+    </div>
+    <div class="sb-cat-title">Entertainment</div>
+    <div class="sb-grid">
+      <div class="sb-chip" data-tags="ent,hgtv">HGTV</div>
+      <div class="sb-chip" data-tags="ent,bravo">Bravo</div>
+      <div class="sb-chip" data-tags="ent,hallmark">Hallmark</div>
+      <div class="sb-chip" data-tags="ent,history">History Channel</div>
+      <div class="sb-chip" data-tags="ent,amc">AMC</div>
+      <div class="sb-chip" data-tags="ent,tlc">TLC</div>
+    </div>
+    <div class="sb-cat-title">On-Demand &amp; Streaming Originals</div>
+    <div class="sb-grid">
+      <div class="sb-chip" data-tags="svod,hbo">HBO / Max Originals</div>
+      <div class="sb-chip" data-tags="svod,hulu">Hulu Originals</div>
+      <div class="sb-chip" data-tags="svod,disney">Disney+</div>
+      <div class="sb-chip" data-tags="svod,netflix">Netflix</div>
+      <div class="sb-chip" data-tags="svod,peacock">Peacock</div>
+      <div class="sb-chip" data-tags="svod,paramount">Paramount+</div>
+    </div>
+    <div class="sb-cat-title">Kids &amp; Family</div>
+    <div class="sb-grid">
+      <div class="sb-chip" data-tags="kids,disney">Disney Channel</div>
+      <div class="sb-chip" data-tags="kids,nick">Nickelodeon</div>
+      <div class="sb-chip" data-tags="kids,cartoonnetwork">Cartoon Network</div>
+    </div>
+    <button class="sb-btn" id="sbBuildBtn">Build My Bundle &#8594;</button>
+  </div>
+  <div class="sb-results" id="sbResults">
+    <div class="sb-tabs">
+      <div class="sb-tab sb-tab-active" id="sbTabBudget">Budget Bundle <span class="sb-tab-badge">SAVE MORE</span></div>
+      <div class="sb-tab" id="sbTabBest">Best Bundle <span class="sb-tab-badge sb-badge-best">TOP PICK</span></div>
+    </div>
+    <div class="sb-panel sb-panel-active" id="sbPanelBudget"></div>
+    <div class="sb-panel" id="sbPanelBest"></div>
+    <p class="sb-disclosure">We <a href="/affiliate-disclosure" rel="nofollow">may earn money</a> when you click our links. Prices and availability subject to change.</p>
+  </div>
+</div>
+<script>
+(function(){
+  /* ── inject styles via JS so WP text filter can't strip them ── */
+  var css = [
+    "#ctvsb *{box-sizing:border-box;margin:0;padding:0}",
+    "#ctvsb{font-family:'Source Sans Pro','Helvetica Neue',Arial,sans-serif;background:#fdfdff;border:1px solid #e2e4ec;border-radius:6px;max-width:860px;margin:0 auto 32px;overflow:hidden}",
+    "#ctvsb .sb-hero{background:#1d1d49;padding:32px 36px 28px;position:relative;overflow:hidden}",
+    "#ctvsb .sb-hero::after{content:'';position:absolute;right:-50px;top:-50px;width:240px;height:240px;border-radius:50%;background:rgba(80,80,185,0.15);pointer-events:none}",
+    "#ctvsb .sb-hero-label{font-family:'Oswald','Impact',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:#ff2128;display:block;margin-bottom:8px}",
+    "#ctvsb .sb-hero h2{font-family:'Oswald','Impact',sans-serif;font-size:30px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:8px}",
+    "#ctvsb .sb-hero p{font-size:15px;color:#a8aec8;line-height:1.5;max-width:580px}",
+    "#ctvsb .sb-label{font-family:'Oswald','Impact',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#1d253c;display:flex;align-items:center;gap:10px;margin-bottom:16px}",
+    "#ctvsb .sb-label::before{content:'';display:inline-block;width:3px;height:16px;background:#ff2128;border-radius:2px;flex-shrink:0}",
+    "#ctvsb .sb-label::after{content:'';flex:1;height:1px;background:#e2e4ec}",
+    "#ctvsb .sb-body{padding:28px 36px}",
+    "#ctvsb .sb-cat-title{font-family:'Oswald','Impact',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#9196b0;margin-bottom:8px;margin-top:18px}",
+    "#ctvsb .sb-cat-title:first-of-type{margin-top:0}",
+    "#ctvsb .sb-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}",
+    "#ctvsb .sb-chip{border:2px solid #e2e4ec;border-radius:4px;padding:8px 14px;cursor:pointer;transition:border-color 0.15s,background 0.15s,color 0.15s;background:#fff;font-family:'Source Sans Pro',Arial,sans-serif;font-size:13px;font-weight:600;color:#3a3d54;user-select:none;position:relative;white-space:nowrap}",
+    "#ctvsb .sb-chip:hover{border-color:#5050b9;color:#1d1d49}",
+    "#ctvsb .sb-chip.sb-on{border-color:#1d1d49;background:#f0f1f8;color:#1d1d49;padding-right:26px}",
+    "#ctvsb .sb-chip.sb-on::after{content:'\\2713';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:#5050b9;font-family:sans-serif}",
+    "#ctvsb .sb-btn{display:block;width:100%;background:#ff2128;color:#fff;border:none;border-radius:4px;padding:15px 24px;font-family:'Oswald','Impact',sans-serif;font-size:18px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;transition:background 0.15s,transform 0.1s;margin-top:24px}",
+    "#ctvsb .sb-btn:hover{background:#d41920;transform:translateY(-1px)}",
+    "#ctvsb .sb-results{display:none;border-top:1px solid #e2e4ec}",
+    "#ctvsb .sb-results.sb-show{display:block}",
+    "#ctvsb .sb-tabs{display:flex;border-bottom:1px solid #e2e4ec}",
+    "#ctvsb .sb-tab{flex:1;padding:14px 20px;font-family:'Oswald','Impact',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#9196b0;cursor:pointer;border-bottom:3px solid transparent;transition:color 0.15s,border-color 0.15s;text-align:center;background:#fdfdff;user-select:none}",
+    "#ctvsb .sb-tab:hover{color:#1d1d49}",
+    "#ctvsb .sb-tab.sb-tab-active{color:#1d1d49;border-bottom-color:#ff2128;background:#fff}",
+    "#ctvsb .sb-tab-badge{display:inline-block;background:#ff2128;color:#fff;font-size:9px;font-weight:700;letter-spacing:0.08em;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle;position:relative;top:-1px}",
+    "#ctvsb .sb-tab-badge.sb-badge-best{background:#5050b9}",
+    "#ctvsb .sb-panel{display:none;padding:26px 36px;background:#f7f8fc}",
+    "#ctvsb .sb-panel.sb-panel-active{display:block}",
+    "#ctvsb .sb-bundle-bar{background:#1d253c;border-radius:4px;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}",
+    "#ctvsb .sb-bundle-name{font-family:'Oswald','Impact',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.02em}",
+    "#ctvsb .sb-bundle-name span{display:block;font-family:'Source Sans Pro',Arial,sans-serif;font-size:12px;font-weight:400;letter-spacing:0;color:#8a90b0;margin-top:3px;text-transform:none}",
+    "#ctvsb .sb-bundle-total{text-align:right}",
+    "#ctvsb .sb-bundle-total-price{font-family:'Oswald','Impact',sans-serif;font-size:26px;font-weight:700;color:#4ccc82;letter-spacing:0.02em;white-space:nowrap}",
+    "#ctvsb .sb-bundle-total-label{font-size:11px;color:#8a90b0;text-align:right}",
+    "#ctvsb .sb-why{background:#fff;border-left:3px solid #5050b9;border-radius:0 4px 4px 0;padding:12px 16px;font-size:14px;color:#555a72;line-height:1.6;margin-bottom:20px}",
+    "#ctvsb .sb-service-card{background:#fff;border:1px solid #e2e4ec;border-radius:4px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;transition:border-color 0.15s,box-shadow 0.15s;flex-wrap:wrap}",
+    "#ctvsb .sb-service-card:hover{border-color:#1d253c;box-shadow:0 2px 8px rgba(29,37,60,0.08)}",
+    "#ctvsb .sb-svc-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0}",
+    "#ctvsb .sb-svc-num{font-family:'Oswald','Impact',sans-serif;font-size:22px;font-weight:700;color:#e2e4ec;flex-shrink:0;line-height:1;width:28px;text-align:center}",
+    "#ctvsb .sb-svc-name{font-family:'Oswald','Impact',sans-serif;font-size:15px;font-weight:700;color:#1d1d49;letter-spacing:0.02em;margin-bottom:3px}",
+    "#ctvsb .sb-svc-covers{font-size:12px;color:#9196b0;line-height:1.4}",
+    "#ctvsb .sb-svc-right{text-align:right;flex-shrink:0}",
+    "#ctvsb .sb-svc-price{font-family:'Oswald','Impact',sans-serif;font-size:16px;font-weight:700;color:#4ccc82}",
+    "#ctvsb .sb-affiliate-btn{display:block;background:#1d1d49;color:#fff;text-decoration:none;padding:8px 16px;border-radius:4px;font-family:'Oswald','Impact',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;transition:background 0.15s;margin-top:6px}",
+    "#ctvsb .sb-affiliate-btn:hover{background:#5050b9}",
+    "#ctvsb .sb-coverage{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid #e2e4ec}",
+    "#ctvsb .sb-cov-chip{font-size:11px;font-weight:600;color:#4ccc82;background:rgba(76,204,130,0.08);border:1px solid rgba(76,204,130,0.25);border-radius:3px;padding:3px 8px}",
+    "#ctvsb .sb-disclosure{font-size:11px;color:#b0b4c8;text-align:center;margin-top:0;line-height:1.5;padding:0 36px 20px;background:#f7f8fc}",
+    "#ctvsb .sb-disclosure a{color:#9196b0}",
+    "#ctvsb .sb-empty{text-align:center;padding:20px;color:#9196b0;font-size:14px;border:1.5px dashed #dde0ea;border-radius:4px;margin:0 0 20px}",
+    "@media(max-width:560px){#ctvsb .sb-hero,#ctvsb .sb-body,#ctvsb .sb-panel{padding:22px 18px}#ctvsb .sb-hero h2{font-size:22px}#ctvsb .sb-bundle-bar{flex-direction:column;align-items:flex-start}#ctvsb .sb-bundle-total{text-align:left}#ctvsb .sb-tab{font-size:12px;padding:12px 10px}#ctvsb .sb-disclosure{padding:0 18px 18px}}"
+  ].join('\n');
+
+  var styleEl = document.createElement('style');
+  styleEl.textContent = css;
+  document.head.appendChild(styleEl);
+
+  /* ── chip toggle ── */
+  document.querySelectorAll('#ctvsb .sb-chip').forEach(function(c){
+    c.addEventListener('click', function(){ c.classList.toggle('sb-on'); });
+  });
+
+  /* ── tab switching ── */
+  document.getElementById('sbTabBudget').addEventListener('click', function(){ sbSwitchTab('budget'); });
+  document.getElementById('sbTabBest').addEventListener('click',   function(){ sbSwitchTab('best'); });
+
+  function sbSwitchTab(which){
+    document.getElementById('sbTabBudget').classList.toggle('sb-tab-active', which==='budget');
+    document.getElementById('sbTabBest').classList.toggle('sb-tab-active',   which==='best');
+    document.getElementById('sbPanelBudget').classList.toggle('sb-panel-active', which==='budget');
+    document.getElementById('sbPanelBest').classList.toggle('sb-panel-active',   which==='best');
+  }
+
+  /* ── service catalogue ── */
+  var SERVICES = [
+    {id:'youtubetv',  name:'YouTube TV',                    price:'$72.99/mo', priceCents:7299, url:'https://www.cabletv.com/go/youtubetv',      desc:'All-in-one live TV replacement. Best single service for sports, locals, and news.',                        covers:['sports','espn','nfl','fs1','nbcsports','locals','abc','cbs','nbc','fox','news','cnn','foxnews','msnbc','ent','hgtv','bravo','history','amc','tlc','kids','nick','cartoonnetwork']},
+    {id:'hulu-live',  name:'Hulu + Live TV',                price:'$82.99/mo', priceCents:8299, url:'https://www.cabletv.com/go/hulu-live',       desc:'Live TV + Hulu on-demand + Disney+ + ESPN+ included. Best if you want originals and live TV together.',   covers:['sports','espn','nfl','fs1','nbcsports','locals','abc','cbs','nbc','fox','news','cnn','msnbc','ent','bravo','hgtv','amc','tlc','kids','disney','nick','svod','hulu']},
+    {id:'sling-both', name:'Sling Orange + Blue',           price:'$55.00/mo', priceCents:5500, url:'https://www.cabletv.com/go/sling',           desc:'Full Sling package — both tiers combined for the widest channel coverage at a mid-range price.',            covers:['sports','espn','nfl','nbcsports','fs1','news','foxnews','cnn','msnbc','ent','bravo','hgtv','amc','tlc','history','kids','disney']},
+    {id:'sling-blue', name:'Sling TV Blue',                 price:'$40.00/mo', priceCents:4000, url:'https://www.cabletv.com/go/sling',           desc:'Budget cable replacement for news and entertainment without sports premiums.',                                covers:['sports','nfl','nbcsports','news','foxnews','cnn','msnbc','ent','bravo','hgtv','amc','tlc','history']},
+    {id:'sling-org',  name:'Sling TV Orange',               price:'$40.00/mo', priceCents:4000, url:'https://www.cabletv.com/go/sling',           desc:'Best budget pick for ESPN and Disney-family channels.',                                                       covers:['sports','espn','nfl','ent','kids','disney']},
+    {id:'philo',      name:'Philo TV',                      price:'$28.00/mo', priceCents:2800, url:'https://www.cabletv.com/go/philo',           desc:'70+ entertainment and lifestyle channels. No sports or locals — the lowest-cost cable alternative.',          covers:['ent','hgtv','bravo','hallmark','history','amc','tlc']},
+    {id:'disney-b',   name:'Disney Bundle (Disney+/Hulu/ESPN+)', price:'$14.99/mo', priceCents:1499, url:'https://www.cabletv.com/go/disney-bundle', desc:'Disney+, Hulu on-demand, and ESPN+ in one affordable add-on.',                                           covers:['svod','disney','hulu','kids','sports']},
+    {id:'hbo',        name:'Max (HBO)',                     price:'$9.99/mo',  priceCents:999,  url:'https://www.cabletv.com/go/hbo-max',         desc:'HBO originals, Max originals, and the full Warner Bros. film library.',                                       covers:['svod','hbo']},
+    {id:'netflix',    name:'Netflix',                       price:'$15.49/mo', priceCents:1549, url:'https://www.cabletv.com/go/netflix',         desc:'The largest on-demand library. Originals, films, and documentaries.',                                        covers:['svod','netflix']},
+    {id:'peacock',    name:'Peacock Premium',               price:'$7.99/mo',  priceCents:799,  url:'https://www.cabletv.com/go/peacock',         desc:'NBC content, WWE, Premier League, and Peacock originals.',                                                    covers:['svod','peacock','sports','nbcsports','news']},
+    {id:'paramount',  name:'Paramount+',                    price:'$7.99/mo',  priceCents:799,  url:'https://www.cabletv.com/go/paramount-plus',  desc:'CBS live, NFL on CBS, and Paramount originals.',                                                              covers:['svod','paramount','news','cbs']}
+  ];
+
+  /* ── bundle logic ── */
+  function buildBundle(candidates, maxSvcs){
+    var remaining = [];
+    document.querySelectorAll('#ctvsb .sb-chip.sb-on').forEach(function(c){
+      c.getAttribute('data-tags').split(',').forEach(function(t){ if(remaining.indexOf(t.trim())===-1) remaining.push(t.trim()); });
+    });
+    var bundle = [];
+    while(remaining.length > 0 && bundle.length < maxSvcs){
+      var best=null, bestScore=0;
+      candidates.forEach(function(svc){
+        if(bundle.indexOf(svc)>-1) return;
+        var score = remaining.filter(function(t){ return svc.covers.indexOf(t)>-1; }).length;
+        if(score > bestScore){ bestScore=score; best=svc; }
+      });
+      if(!best || bestScore===0) break;
+      bundle.push(best);
+      remaining = remaining.filter(function(t){ return best.covers.indexOf(t)===-1; });
+    }
+    return bundle;
+  }
+
+  function renderPanel(elId, bundle, labelText){
+    var el = document.getElementById(elId);
+    var selected = document.querySelectorAll('#ctvsb .sb-chip.sb-on');
+    var selectedLabels = [];
+    selected.forEach(function(c){ selectedLabels.push(c.textContent.trim()); });
+
+    if(!bundle.length){
+      el.innerHTML = '<div class="sb-empty">No matching services found for your selections.</div>';
+      return;
+    }
+
+    var totalCents = bundle.reduce(function(s,svc){ return s+svc.priceCents; },0);
+    var totalStr   = '$'+(totalCents/100).toFixed(2)+'/mo';
+    var bundleName = bundle.length===1 ? bundle[0].name+' covers everything' : bundle.length+'-Service Bundle';
+    var tagline    = bundle.length===1 ? 'One service is all you need' : bundle.map(function(s){ return s.name; }).join(' + ');
+    var whyText    = bundle.length===1
+      ? bundle[0].name+' covers every channel and content type you selected on a single bill. '+bundle[0].desc
+      : 'No single service covers everything you picked — but these '+bundle.length+' services together give you everything on your list.';
+
+    var html = '<div class="sb-bundle-bar">'
+      +'<div class="sb-bundle-name">'+bundleName+'<span>'+tagline+'</span></div>'
+      +'<div class="sb-bundle-total"><div class="sb-bundle-total-price">'+totalStr+'</div>'
+      +'<div class="sb-bundle-total-label">total/mo'+(bundle.length>1?' combined':'')+'</div></div>'
+      +'</div>'
+      +'<div class="sb-why">'+whyText+'</div>'
+      +'<div class="sb-label">'+labelText+'</div>';
+
+    bundle.forEach(function(svc, i){
+      html += '<div class="sb-service-card">'
+        +'<div class="sb-svc-left"><div class="sb-svc-num">'+(i+1)+'</div>'
+        +'<div><div class="sb-svc-name">'+svc.name+'</div>'
+        +'<div class="sb-svc-covers">'+svc.desc+'</div></div></div>'
+        +'<div class="sb-svc-right"><div class="sb-svc-price">'+svc.price+'</div>'
+        +'<a href="'+svc.url+'" target="_blank" rel="nofollow" class="sb-affiliate-btn">View Deal &#8594;</a>'
+        +'</div></div>';
+    });
+
+    if(selectedLabels.length){
+      html += '<div class="sb-coverage">';
+      selectedLabels.forEach(function(lbl){ html += '<div class="sb-cov-chip">&#10003; '+lbl+'</div>'; });
+      html += '</div>';
+    }
+
+    el.innerHTML = html;
+  }
+
+  /* ── main build action ── */
+  document.getElementById('sbBuildBtn').addEventListener('click', function(){
+    var selected = document.querySelectorAll('#ctvsb .sb-chip.sb-on');
+    var results  = document.getElementById('sbResults');
+
+    if(!selected.length){
+      document.getElementById('sbPanelBudget').innerHTML = '<div class="sb-empty">Please select at least one channel or content type above.</div>';
+      document.getElementById('sbPanelBest').innerHTML   = '<div class="sb-empty">Please select at least one channel or content type above.</div>';
+      results.classList.add('sb-show');
+      results.scrollIntoView({behavior:'smooth',block:'nearest'});
+      return;
+    }
+
+    var budgetCandidates = SERVICES.slice().sort(function(a,b){ return a.priceCents-b.priceCents; });
+    var bestCandidates   = SERVICES.slice().sort(function(a,b){
+      var scoreA = document.querySelectorAll('#ctvsb .sb-chip.sb-on').length;
+      var tagsA  = []; document.querySelectorAll('#ctvsb .sb-chip.sb-on').forEach(function(c){ c.getAttribute('data-tags').split(',').forEach(function(t){ if(tagsA.indexOf(t.trim())===-1) tagsA.push(t.trim()); }); });
+      return tagsA.filter(function(t){ return b.covers.indexOf(t)>-1; }).length - tagsA.filter(function(t){ return a.covers.indexOf(t)>-1; }).length;
+    });
+
+    renderPanel('sbPanelBudget', buildBundle(budgetCandidates, 3), 'Your Budget Bundle');
+    renderPanel('sbPanelBest',   buildBundle(bestCandidates,   3), 'Your Best Bundle');
+
+    sbSwitchTab('budget');
+    results.classList.add('sb-show');
+    results.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+
+})();
+</script>
+<!-- END STREAMING BUNDLE BUILDER -->
