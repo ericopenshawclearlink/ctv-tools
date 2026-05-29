@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cable TV &amp; Internet Providers by State — CableTV.com</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+    background: #fdfdff;
+    color: #1d253c;
+    padding: 32px 20px 48px;
+  }
+  .ctv-map-wrap { max-width: 980px; margin: 0 auto; }
+
+  .ctv-map-header { margin-bottom: 22px; }
+  .ctv-eyebrow {
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: #ff2128; display: block; margin-bottom: 8px;
+  }
+  .ctv-map-header h1 {
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 28px; font-weight: 700;
+    color: #1d1d49; margin-bottom: 8px; line-height: 1.2;
+  }
+  .ctv-map-header p { font-size: 15px; color: #6b7280; line-height: 1.5; max-width: 620px; }
+
+  .ctv-dropdown-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .ctv-dropdown-row label {
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #1d253c; white-space: nowrap;
+  }
+  .ctv-dropdown-row select {
+    border: 2px solid #e2e4ec; border-radius: 4px;
+    padding: 10px 36px 10px 14px;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    font-size: 14px; font-weight: 600; color: #1d1d49;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231d1d49' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+    cursor: pointer; min-width: 220px; appearance: none;
+    transition: border-color 0.15s;
+  }
+  .ctv-dropdown-row select:focus { outline: none; border-color: #5050b9; }
+  .ctv-go-btn {
+    background: #ff2128; color: #fff; border: none; border-radius: 4px;
+    padding: 10px 22px;
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer; transition: background 0.15s; white-space: nowrap;
+  }
+  .ctv-go-btn:hover { background: #d41920; }
+
+  .ctv-map-container {
+    background: #fff; border: 1px solid #e2e4ec;
+    border-radius: 6px; padding: 16px;
+    margin-bottom: 20px; position: relative;
+  }
+
+  .state { fill: #ccdff5; stroke: #fff; stroke-width: 0.8; cursor: pointer; transition: fill 0.12s; }
+  .state:hover { fill: #1d1d49; }
+  .state.active { fill: #ff2128; }
+
+  .state-label {
+    font-size: 7px; font-weight: 700; fill: #1d253c;
+    pointer-events: none; text-anchor: middle; dominant-baseline: middle;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+  }
+
+  /* Labels on hovered/active states should stay visible */
+  .state-label-group:has(.state.active) .state-label,
+  .state-label-group:hover .state-label { fill: #fff; }
+
+  .ctv-tooltip {
+    position: absolute;
+    background: #1d1d49; color: #fff;
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 6px 12px;
+    border-radius: 4px; pointer-events: none;
+    opacity: 0; transition: opacity 0.1s;
+    white-space: nowrap; z-index: 10;
+  }
+  .ctv-tooltip.show { opacity: 1; }
+
+  .ctv-section-divider {
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #1d253c;
+    display: flex; align-items: center; gap: 10px;
+    margin: 28px 0 16px;
+  }
+  .ctv-section-divider::before {
+    content: ''; display: inline-block;
+    width: 3px; height: 16px; background: #ff2128;
+    border-radius: 2px; flex-shrink: 0;
+  }
+  .ctv-section-divider::after { content: ''; flex: 1; height: 1px; background: #e2e4ec; }
+
+  .ctv-state-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+    gap: 6px;
+  }
+  .ctv-state-link {
+    display: block; padding: 10px 4px;
+    background: #fff; border: 1.5px solid #e2e4ec; border-radius: 4px;
+    text-align: center; text-decoration: none;
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.05em; color: #1d253c;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .ctv-state-link:hover { background: #1d1d49; border-color: #1d1d49; color: #fff; }
+
+  .ctv-disclosure {
+    font-size: 11px; color: #b0b4c8;
+    margin-top: 20px; line-height: 1.5; text-align: center;
+  }
+
+  #ctv-us-map { width: 100%; height: auto; display: block; }
+
+  @media (max-width: 600px) {
+    .ctv-map-header h1 { font-size: 20px; }
+    .ctv-map-container { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="ctv-map-wrap">
+
+  <div class="ctv-map-header">
+    <span class="ctv-eyebrow">CableTV.com · Provider Finder</span>
+    <h1>Cable TV &amp; Internet Providers by State</h1>
+    <p>Select your state on the map or use the dropdown to find the best cable TV and internet providers available in your area.</p>
+  </div>
+
+  <div class="ctv-dropdown-row">
+    <label for="ctv-state-select">Jump to your state:</label>
+    <select id="ctv-state-select">
+      <option value="">— Select a state —</option>
+      <option value="al">Alabama</option><option value="ak">Alaska</option>
+      <option value="az">Arizona</option><option value="ar">Arkansas</option>
+      <option value="ca">California</option><option value="co">Colorado</option>
+      <option value="ct">Connecticut</option><option value="dc">Washington D.C.</option>
+      <option value="de">Delaware</option><option value="fl">Florida</option>
+      <option value="ga">Georgia</option><option value="hi">Hawaii</option>
+      <option value="id">Idaho</option><option value="il">Illinois</option>
+      <option value="in">Indiana</option><option value="ia">Iowa</option>
+      <option value="ks">Kansas</option><option value="ky">Kentucky</option>
+      <option value="la">Louisiana</option><option value="me">Maine</option>
+      <option value="md">Maryland</option><option value="ma">Massachusetts</option>
+      <option value="mi">Michigan</option><option value="mn">Minnesota</option>
+      <option value="ms">Mississippi</option><option value="mo">Missouri</option>
+      <option value="mt">Montana</option><option value="ne">Nebraska</option>
+      <option value="nv">Nevada</option><option value="nh">New Hampshire</option>
+      <option value="nj">New Jersey</option><option value="nm">New Mexico</option>
+      <option value="ny">New York</option><option value="nc">North Carolina</option>
+      <option value="nd">North Dakota</option><option value="oh">Ohio</option>
+      <option value="ok">Oklahoma</option><option value="or">Oregon</option>
+      <option value="pa">Pennsylvania</option><option value="ri">Rhode Island</option>
+      <option value="sc">South Carolina</option><option value="sd">South Dakota</option>
+      <option value="tn">Tennessee</option><option value="tx">Texas</option>
+      <option value="ut">Utah</option><option value="vt">Vermont</option>
+      <option value="va">Virginia</option><option value="wa">Washington</option>
+      <option value="wv">West Virginia</option><option value="wi">Wisconsin</option>
+      <option value="wy">Wyoming</option>
+    </select>
+    <button class="ctv-go-btn" onclick="ctvGoToState()">View Providers &rarr;</button>
+  </div>
+
+  <div class="ctv-map-container">
+    <div class="ctv-tooltip" id="ctvTooltip"></div>
+    <svg id="ctv-us-map" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg"
+         role="img" aria-label="Interactive US map. Click a state to view cable and internet providers.">
+      <title>Cable TV and Internet Providers by State — CableTV.com</title>
+    </svg>
+  </div>
+
+  <div class="ctv-section-divider">All States &amp; D.C. — Browse by Letter</div>
+  <nav aria-label="Browse providers by state">
+    <div class="ctv-state-grid">
+      <a class="ctv-state-link" href="https://www.cabletv.com/al">AL</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ak">AK</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/az">AZ</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ar">AR</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ca">CA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/co">CO</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ct">CT</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/dc">DC</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/de">DE</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/fl">FL</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ga">GA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/hi">HI</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/id">ID</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/il">IL</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/in">IN</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ia">IA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ks">KS</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ky">KY</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/la">LA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/me">ME</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/md">MD</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ma">MA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/mi">MI</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/mn">MN</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ms">MS</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/mo">MO</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/mt">MT</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ne">NE</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/nv">NV</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/nh">NH</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/nj">NJ</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/nm">NM</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ny">NY</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/nc">NC</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/nd">ND</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/oh">OH</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ok">OK</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/or">OR</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/pa">PA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ri">RI</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/sc">SC</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/sd">SD</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/tn">TN</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/tx">TX</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/ut">UT</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/vt">VT</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/va">VA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/wa">WA</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/wv">WV</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/wi">WI</a>
+      <a class="ctv-state-link" href="https://www.cabletv.com/wy">WY</a>
+    </div>
+  </nav>
+
+  <p class="ctv-disclosure">Provider availability varies by address. Click your state to see exact providers available at your location.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+(function(){
+  var BASE = 'https://www.cabletv.com/';
+
+  var STATES = {
+    '01':'al','02':'ak','04':'az','05':'ar','06':'ca','08':'co','09':'ct',
+    '10':'de','11':'dc','12':'fl','13':'ga','15':'hi','16':'id','17':'il',
+    '18':'in','19':'ia','20':'ks','21':'ky','22':'la','23':'me','24':'md',
+    '25':'ma','26':'mi','27':'mn','28':'ms','29':'mo','30':'mt','31':'ne',
+    '32':'nv','33':'nh','34':'nj','35':'nm','36':'ny','37':'nc','38':'nd',
+    '39':'oh','40':'ok','41':'or','42':'pa','44':'ri','45':'sc','46':'sd',
+    '47':'tn','48':'tx','49':'ut','50':'vt','51':'va','53':'wa','54':'wv',
+    '55':'wi','56':'wy'
+  };
+
+  var NAMES = {
+    'al':'Alabama','ak':'Alaska','az':'Arizona','ar':'Arkansas','ca':'California',
+    'co':'Colorado','ct':'Connecticut','dc':'Washington D.C.','de':'Delaware',
+    'fl':'Florida','ga':'Georgia','hi':'Hawaii','id':'Idaho','il':'Illinois',
+    'in':'Indiana','ia':'Iowa','ks':'Kansas','ky':'Kentucky','la':'Louisiana',
+    'me':'Maine','md':'Maryland','ma':'Massachusetts','mi':'Michigan','mn':'Minnesota',
+    'ms':'Mississippi','mo':'Missouri','mt':'Montana','ne':'Nebraska','nv':'Nevada',
+    'nh':'New Hampshire','nj':'New Jersey','nm':'New Mexico','ny':'New York',
+    'nc':'North Carolina','nd':'North Dakota','oh':'Ohio','ok':'Oklahoma','or':'Oregon',
+    'pa':'Pennsylvania','ri':'Rhode Island','sc':'South Carolina','sd':'South Dakota',
+    'tn':'Tennessee','tx':'Texas','ut':'Utah','vt':'Vermont','va':'Virginia',
+    'wa':'Washington','wv':'West Virginia','wi':'Wisconsin','wy':'Wyoming'
+  };
+
+  // No manual overrides needed — we use polylabel to find the
+  // visual center (pole of inaccessibility) of each state's largest polygon.
+
+  var tooltip = document.getElementById('ctvTooltip');
+  var container = document.querySelector('.ctv-map-container');
+  var svg = d3.select('#ctv-us-map');
+
+  var projection = d3.geoAlbersUsa().scale(1000).translate([487, 305]);
+  var path = d3.geoPath().projection(projection);
+
+  d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(function(us){
+    var states = topojson.feature(us, us.objects.states);
+
+    // Draw state paths inside anchor tags
+    var stateGroups = svg.selectAll('g.state-group')
+      .data(states.features)
+      .enter()
+      .append('g')
+      .attr('class', 'state-group');
+
+    stateGroups.append('a')
+      .attr('href', function(d){
+        var abbr = STATES[d.id < 10 ? '0'+d.id : ''+d.id];
+        return abbr ? BASE + abbr : '#';
+      })
+      .attr('target','_blank')
+      .attr('rel','noopener')
+      .append('path')
+        .attr('class','state')
+        .attr('d', path)
+        .attr('data-abbr', function(d){
+          var key = String(d.id).padStart(2, '0');
+          return (STATES[key] || '').toUpperCase();
+        })
+        .attr('data-name', function(d){
+          var key = String(d.id).padStart(2, '0');
+          var abbr = STATES[key];
+          return abbr ? NAMES[abbr] : '';
+        })
+        .on('mouseenter', function(event, d){
+          d3.select(this).classed('active', true);
+          var key = String(d.id).padStart(2, '0');
+          var abbr = STATES[key];
+          tooltip.textContent = abbr ? NAMES[abbr] : '';
+          tooltip.classList.add('show');
+        })
+        .on('mousemove', function(event){
+          var r = container.getBoundingClientRect();
+          tooltip.style.left = (event.clientX - r.left + 12) + 'px';
+          tooltip.style.top  = (event.clientY - r.top  - 36) + 'px';
+        })
+        .on('mouseleave', function(){
+          d3.select(this).classed('active', false);
+          tooltip.classList.remove('show');
+        });
+
+    // State border mesh overlay
+    svg.append('path')
+      .datum(topojson.mesh(us, us.objects.states, function(a,b){ return a !== b; }))
+      .attr('fill','none')
+      .attr('stroke','#fff')
+      .attr('stroke-width','0.8')
+      .attr('d', path);
+
+    // and the too-small states in SKIP_LABEL.
+    // All state label positions — hardcoded from authoritative D3 Albers USA
+    // centroids (scale=1000, translate=[487,305]). Computed from actual TopoJSON data.
+    var LABEL_POS = {
+      'ak': [191,473], 'al': [629,403], 'ar': [546,371], 'az': [272,365],
+      'ca': [175,292], 'co': [367,293], 'ct': [793,217],
+      'de': [768,270], 'fl': [702,467], 'ga': [678,400], 'hi': [342,511],
+      'ia': [527,245], 'id': [265,183], 'il': [585,278], 'in': [624,277],
+      'ks': [463,308], 'ky': [641,317], 'la': [555,438], 'ma': [802,203],
+      'md': [752,273], 'me': [819,142], 'mi': [627,199], 'mn': [516,172],
+      'mo': [543,310], 'ms': [587,407], 'mt': [333,147], 'nc': [728,340],
+      'nd': [442,150], 'ne': [446,254], 'nh': [799,178], 'nj': [775,247],
+      'nm': [351,373], 'nv': [221,264], 'ny': [753,203], 'oh': [669,265],
+      'ok': [474,360], 'or': [191,174], 'pa': [732,244], 'ri': [808,212],
+      'sc': [711,372], 'sd': [443,203], 'tn': [630,348], 'tx': [446,431],
+      'ut': [286,277], 'va': [729,305], 'vt': [784,175], 'wa': [208,116],
+      'wi': [569,199], 'wv': [702,289], 'wy': [349,221]
+    };
+    // DC is too small to label usefully
+    Object.keys(LABEL_POS).forEach(function(abbr) {
+      var pos = LABEL_POS[abbr];
+      svg.append('text')
+        .attr('class', 'state-label')
+        .attr('x', pos[0])
+        .attr('y', pos[1])
+        .attr('pointer-events', 'none')
+        .text(abbr.toUpperCase());
+    });
+
+  }).catch(function(err){
+    console.error('Map load error:', err);
+    document.querySelector('.ctv-map-container').innerHTML =
+      '<p style="text-align:center;padding:40px;color:#9196b0;font-size:14px;">Map could not be loaded. Please use the dropdown or state grid below.</p>';
+  });
+
+  // Dropdown
+  document.getElementById('ctv-state-select').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') ctvGoToState();
+  });
+  window.ctvGoToState = function(){
+    var v = document.getElementById('ctv-state-select').value;
+    if(v) window.open(BASE + v, '_blank');
+  };
+})();
+</script>
+</body>
+</html>
